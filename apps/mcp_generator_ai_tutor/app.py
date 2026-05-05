@@ -36,8 +36,8 @@ def main():
         layout="centered"
     )
 
-    st.title("📝 AI MCP Generator & Tutor")
-    st.write("Generate **15 MCP Questions** based on a topic and difficulty level.")
+    st.title("📝 AI MCQ Generator & Tutor")
+    st.write("Generate **15 MCQ Questions** based on a topic and difficulty level.")
 
     topic = st.text_input(
         "Enter Topic:",
