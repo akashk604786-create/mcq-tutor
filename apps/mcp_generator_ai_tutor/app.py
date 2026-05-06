@@ -31,12 +31,12 @@ def parse_questions(text: str):
 
 def main():
     st.set_page_config(
-        page_title="MCP Generator / AI Tutor",
-        page_icon="📝",
+        page_title="MCQ Generator / AI Tutor",
+        page_icon="",
         layout="centered"
     )
 
-    st.title("📝 AI MCQ Generator & Tutor")
+    st.title("AI MCQ Generator & Tutor")
     st.write("Generate **15 MCQ Questions** based on a topic and difficulty level.")
 
     topic = st.text_input(
@@ -73,7 +73,7 @@ def main():
     # ✅ SHOW QUESTIONS WITH TOGGLE
     if st.session_state.full_response:
         st.markdown("---")
-        st.subheader("📘 Questions")
+        st.subheader("Questions")
 
         questions = parse_questions(st.session_state.full_response)
 
