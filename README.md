@@ -35,9 +35,8 @@ Groq API, then take the quiz in the browser and get scored at the end.
 ## Project structure
 
 ```
-main.py                    # FastAPI app entrypoint (local dev: uvicorn main:app)
-api/index.py                # FastAPI app entrypoint for Vercel's serverless runtime
-api/routes.py                # Shared router: POST /api/generate
+main.py                    # FastAPI app entrypoint — used locally AND by Vercel
+api/routes.py                # Router: POST /api/generate
 utils/llm_client.py          # Groq API wrapper
 utils/mcq_helper.py          # Builds the quiz-generation prompt
 utils/quiz_parser.py         # Parses the model's output into structured questions
@@ -46,9 +45,10 @@ config/                      # Typed app config (config.yaml + model_config.py)
 public/                      # Frontend (HTML/CSS/JS)
 ```
 
-`main.py` and `api/index.py` both build a FastAPI app around the same
-`api/routes.py` router — `main.py` additionally mounts `public/` as static
-files for local dev, since Vercel serves `public/` itself.
+`main.py` mounts `public/` as static files only when that directory exists
+on disk — true for local dev, but not inside Vercel's deployed function,
+where Vercel serves `public/` itself via its own static layer and routes
+everything else (like `/api/generate`) straight to this same FastAPI app.
 
 ## Configuration
 
@@ -78,5 +78,6 @@ Model settings (name, temperature, max tokens) live in `config/config.yaml`.
    vercel --prod
    ```
 
-`vercel.json` rewrites `/api/*` requests to the `api/index.py` serverless
-function; everything else is served as static content from `public/`.
+Vercel auto-detects the FastAPI app in `main.py` and deploys it as a
+serverless function, serving `public/` directly as static content and
+routing everything else to that function — no extra routing config needed.
