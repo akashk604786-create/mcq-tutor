@@ -27,7 +27,6 @@ def parse_quiz(raw_text: str) -> list[Question]:
     questions: list[Question] = []
 
     for match in _QUESTION_BLOCK.finditer(raw_text.strip()):
-        number = int(match.group(1))
         block = match.group(2).strip()
 
         first_option = _OPTION_LINE.search(block)
@@ -44,7 +43,10 @@ def parse_quiz(raw_text: str) -> list[Question]:
         if question_text and options and answer:
             questions.append(
                 {
-                    "number": number,
+                    # Assigned by parse order, not the model's own "Qn." label —
+                    # the model occasionally repeats or skips numbers, which would
+                    # otherwise collide (two questions sharing one answer slot).
+                    "number": len(questions) + 1,
                     "question": question_text,
                     "options": options,
                     "answer": answer,
