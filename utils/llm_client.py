@@ -30,25 +30,21 @@ class GroqClient:
         self.client = Groq(api_key=self.api_key)
 
         # Model name from config (or fallback)
-        self.model_name = self.model_cfg.name or "llama3-8b-8192"
+        self.model_name = self.model_cfg.name or "openai/gpt-oss-20b"
 
     def ask(self, prompt: str) -> str:
         """
-        Send a prompt to Groq and return clean text.
+        Send a prompt to Groq and return the response text.
+        Raises on failure so callers can decide how to surface the error.
         """
+        response = self.client.chat.completions.create(
+            model=self.model_name,
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
+            temperature=self.model_cfg.temperature,
+            top_p=self.model_cfg.top_p,
+            max_tokens=self.model_cfg.max_output_tokens,
+        )
 
-        try:
-            response = self.client.chat.completions.create(
-                model=self.model_name,
-                messages=[
-                    {"role": "user", "content": prompt}
-                ],
-                temperature=self.model_cfg.temperature,
-                top_p=self.model_cfg.top_p,
-                max_tokens=self.model_cfg.max_output_tokens,
-            )
-
-            return response.choices[0].message.content
-
-        except Exception as e:
-            return f"⚠️ Error: {str(e)}"
+        return response.choices[0].message.content

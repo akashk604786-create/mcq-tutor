@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Quiz Generator</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <h1>AI Quiz Generator</h1>
+      <p class="subtitle">Generate a 15-question multiple-choice quiz on any topic and test yourself.</p>
+    </header>
+
+    <main>
+      <!-- Setup -->
+      <section id="setup-view" class="card">
+        <form id="setup-form">
+          <div class="field">
+            <label for="topic">Topic</label>
+            <input
+              id="topic"
+              name="topic"
+              type="text"
+              placeholder="e.g. Python Lists, Docker, Git, MLOps"
+              autocomplete="off"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label for="level">Difficulty</label>
+            <select id="level" name="level">
+              <option value="Easy" selected>Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" id="generate-btn">
+            Generate Quiz
+          </button>
+        </form>
+
+        <p id="setup-error" class="error-text" hidden></p>
+      </section>
+
+      <!-- Loading -->
+      <section id="loading-view" class="state-view" hidden>
+        <div class="spinner"></div>
+        <p>Generating your quiz&hellip;</p>
+      </section>
+
+      <!-- Quiz -->
+      <section id="quiz-view" hidden>
+        <div class="quiz-header">
+          <div>
+            <h2 id="quiz-topic"></h2>
+            <span class="badge" id="quiz-level"></span>
+          </div>
+          <span class="progress-text" id="progress-text">0 / 15 answered</span>
+        </div>
+
+        <ol id="question-list" class="question-list"></ol>
+
+        <div class="quiz-footer">
+          <button type="button" class="btn btn-secondary" id="cancel-btn">Start Over</button>
+          <button type="button" class="btn btn-primary" id="submit-quiz-btn">Submit Quiz</button>
+        </div>
+      </section>
+
+      <!-- Results -->
+      <section id="results-view" hidden>
+        <div class="card score-card">
+          <span class="score-label">Your Score</span>
+          <span class="score-value" id="score-value">0 / 15</span>
+          <span class="score-percent" id="score-percent"></span>
+        </div>
+
+        <ol id="results-list" class="question-list"></ol>
+
+        <div class="quiz-footer quiz-footer-center">
+          <button type="button" class="btn btn-primary" id="retry-btn">Try Another Topic</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

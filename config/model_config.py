@@ -8,8 +8,7 @@ from pydantic import BaseModel, Field
 
 
 class ModelConfig(BaseModel):
-    # ✅ Updated for Groq (default model)
-    name: str = Field(default="llama3-8b-8192")
+    name: str = Field(default="openai/gpt-oss-20b")
 
     # Generation parameters
     temperature: float = Field(default=0.4, ge=0.0, le=1.0)
